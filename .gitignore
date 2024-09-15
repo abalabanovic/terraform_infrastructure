@@ -1,0 +1,5 @@
+default_key.json
+*.json
+.terraform/
+*.tfstate
+*.tfstate.backup
