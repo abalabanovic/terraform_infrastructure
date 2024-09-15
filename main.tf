@@ -8,9 +8,56 @@ provider "google" {
 
 }
 
-resource "google_compute_network" "andrej_vpc" {
+module "network" {
   
-    name = "andrej-vpc"
-    project = "gd-gcp-gridu-devops-t1-t2"
-    auto_create_subnetworks = true
+source = "./network"
+vpc-name = "vpc-abalabanovic"
+subnet-name = "subnet-abalabanovic"
+region = "us-central1"
+cidr-range = "10.0.1.0/24"
+#Health check ip ranges 35.191.0.0/16 130.211.0.0/22
+source_ranges = ["0.0.0.0/0"]
+instance-group-self-link = module.compute.instance_group_self_link
+
+firewall_rules = {
+  
+  http = {
+
+        name = "http-firewall-rule"
+        description = "Allow HTTP trafic"
+        protocol = "tcp"
+        ports = ["80", "8080"]
+        target_tags = ["http-allow"]
+
+
+  }
+
+  ssh = {
+
+        name = "ssh-firewall-rule"
+        description = "Allow SSH traffic"
+        protocol = "tcp"
+        ports = ["22"]
+        target_tags = ["ssh-allow"]
+
+  }
+
+}
+}
+
+module "compute" {
+  
+    source = "./compute"
+    project-name = "gd-gcp-gridu-devops-t1-t2"
+    vpc_id = module.network.network_name
+    subnet_id = module.network.subnet_name
+    machine-type = "e2-micro"
+    instance-number = 3
+    image-name = "debian-cloud/debian-12-bookworm-v20240415"
+    region = "us-central1"
+    zone = "us-central1-a"
+    network-tags = ["http-allow", "ssh-allow"]
+    instance-group-name = "instance-group_manager"
+    base-instance-name = "instance"
+    
 }
