@@ -53,11 +53,12 @@ module "compute" {
     subnet_id = module.network.subnet_name
     machine-type = "e2-micro"
     instance-number = 3
-    image-name = "debian-cloud/debian-12-bookworm-v20240415"
+    #Image with installed apache nad php showing hostname on web ui
+    image-name = "projects/gd-gcp-gridu-devops-t1-t2/global/images/abalabanovic-apache"
     region = "us-central1"
     zone = "us-central1-a"
     network-tags = ["http-allow", "ssh-allow"]
-    instance-group-name = "instance-group_manager"
+    instance-group-name = "instance-group-manager"
     base-instance-name = "instance"
     
 }
