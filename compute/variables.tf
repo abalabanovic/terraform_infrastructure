@@ -101,3 +101,17 @@ variable "instance_group_manager_named_port_number" {
   description = "Port number"
 
 }
+
+variable "target_file_for_script" {
+
+  type        = string
+  description = "File name for apache service"
+
+}
+
+variable "startup_script_name" {
+
+  type        = string
+  description = "Name of startup script"
+
+}

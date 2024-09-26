@@ -48,8 +48,8 @@ resource "google_compute_health_check" "http_health_check" {
   timeout_sec        = var.hc_timeout_interval
   http_health_check {
 
-    port         = 80
-    request_path = "/"
+    port         = var.healt_check_port
+    request_path = var.healt_check_request_path
 
   }
 
@@ -61,8 +61,8 @@ resource "google_compute_backend_service" "backend_service" {
   name          = var.backend_service_name
   health_checks = [google_compute_health_check.http_health_check.id]
 
-  port_name = "http"
-  protocol  = "HTTP"
+  port_name = var.backend_service_port_name
+  protocol  = upper(var.backend_service_port_name)
 
   backend {
 

@@ -143,3 +143,23 @@ variable "load_balancing_scheme" {
   description = "Define load balancing scheme"
 
 }
+
+variable "healt_check_port" {
+
+  type    = number
+  default = 80
+
+}
+
+variable "healt_check_request_path" {
+
+  type = string
+
+}
+
+variable "backend_service_port_name" {
+
+  type    = string
+  default = "http"
+
+}

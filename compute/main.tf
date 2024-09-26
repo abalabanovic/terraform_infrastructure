@@ -1,12 +1,27 @@
 
+data "template_file" "startup_script" {
+
+  template = file("${path.module}/${var.startup_script_name}")
+
+  vars = {
+
+    target_file = var.target_file_for_script
+
+  }
+
+}
+
+
 resource "google_compute_instance_template" "instance_template" {
 
   name         = var.instance_template_name
   machine_type = var.machine-type
 
+  metadata_startup_script = data.template_file.startup_script.rendered
+
   disk {
 
-    source_image = var.image-name
+    source_image = local.image_name_to_use
 
   }
 
