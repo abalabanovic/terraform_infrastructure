@@ -16,21 +16,31 @@ module "network" {
   region      = "us-central1"
   cidr-range  = "10.0.1.0/24"
   #Health check ip ranges 35.191.0.0/16 130.211.0.0/22
-  source_ranges             = ["178.221.66.14/32", "35.191.0.0/16", "130.211.0.0/22"]
-  instance-group-self-link  = module.compute.instance_group_self_link
-  forwarding_rule           = "forwarding-rule"
-  url_map_name              = "url-map"
-  target_http_name          = "http-target-proxy"
-  backend_service_name      = "backend-service"
-  http_health_check_name    = "http-health-check"
-  hc_check_interval         = 30
-  hc_timeout_interval       = 30
-  auto_create_subnetwork    = false
-  lb_global_ip_name         = "lb-global-ip"
-  load_balancing_scheme     = "EXTERNAL"
-  healt_check_port          = 80
-  healt_check_request_path  = "/"
-  backend_service_port_name = "http"
+  source_ranges                      = ["178.221.66.14/32", "35.191.0.0/16", "130.211.0.0/22", "10.0.1.0/24"]
+  instance-group-self-link           = module.compute.instance_group_self_link
+  forwarding_rule                    = "forwarding-rule"
+  backend_service_name               = "backend-service"
+  http_health_check_name             = "http-health-check"
+  hc_check_interval                  = 30
+  hc_timeout_interval                = 30
+  auto_create_subnetwork             = false
+  load_balancing_scheme              = "INTERNAL"
+  healt_check_port                   = 80
+  healt_check_request_path           = "/"
+  backend_service_port_name          = "http"
+  router_name                        = "abalabanovic-router"
+  nat_name                           = "abalabanovic-router-nat"
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  protocol_for_loadbalancer          = "tcp"
+  balancing_mode                     = "CONNECTION"
+  ports_forwarding_rule              = ["80"]
+  firewall_rule_internet_name        = "allow-egress-internet"
+  firewall_rule_internet_ports       = ["80", "443"]
+  firewall_rule_internet_direction   = "EGRESS"
+  firewall_rule_internet_destination = ["0.0.0.0/0"]
+
+
 
 
   firewall_rules = {

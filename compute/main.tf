@@ -1,4 +1,42 @@
 
+# Deploying test instance in same VPC to test internal load balancer
+
+resource "google_compute_instance" "test_instance" {
+
+  machine_type = var.machine-type
+  name         = "test-instance"
+  zone         = var.zone
+
+  tags = var.network-tags
+
+  boot_disk {
+    initialize_params {
+
+      image = local.default_image_name
+
+    }
+
+  }
+
+  network_interface {
+
+    network    = var.vpc_id
+    subnetwork = var.subnet_id
+
+    access_config {
+
+    }
+  }
+
+
+  metadata = {
+    ssh-keys = "abalabanovic:${file("${path.module}/${"id_rsa.pub"}")}"
+  }
+
+
+}
+
+
 data "template_file" "startup_script" {
 
   template = file("${path.module}/${var.startup_script_name}")
@@ -10,7 +48,6 @@ data "template_file" "startup_script" {
   }
 
 }
-
 
 resource "google_compute_instance_template" "instance_template" {
 
@@ -30,11 +67,7 @@ resource "google_compute_instance_template" "instance_template" {
     network    = var.vpc_id
     subnetwork = var.subnet_id
 
-    access_config {
-
-      #Leaving it empty will give us random public IP
-
-    }
+    # No "access_config" block, so no public IP will be assigned
 
   }
 

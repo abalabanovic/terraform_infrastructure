@@ -74,22 +74,6 @@ variable "forwarding_rule" {
 
 }
 
-variable "url_map_name" {
-
-  type        = string
-  description = "Url map name"
-  default     = "url-map"
-
-}
-
-variable "target_http_name" {
-
-  type        = string
-  description = "Target http proxy name"
-  default     = "target-http-proxy"
-
-}
-
 variable "backend_service_name" {
 
   type        = string
@@ -129,13 +113,6 @@ variable "auto_create_subnetwork" {
 
 }
 
-variable "lb_global_ip_name" {
-
-  type        = string
-  description = "Name for load balancer public ip"
-  default     = "lb-public-ip"
-
-}
 
 variable "load_balancing_scheme" {
 
@@ -161,5 +138,78 @@ variable "backend_service_port_name" {
 
   type    = string
   default = "http"
+
+}
+
+variable "router_name" {
+
+  type        = string
+  description = "Name for router"
+
+}
+
+variable "nat_name" {
+
+  type        = string
+  description = "NAT name"
+
+}
+
+variable "nat_ip_allocate_option" {
+
+  type    = string
+  default = "AUTO_ONLY"
+
+}
+
+variable "source_subnetwork_ip_ranges_to_nat" {
+
+  type    = string
+  default = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+
+}
+
+variable "balancing_mode" {
+
+  type    = string
+  default = "CONNECTION"
+
+}
+
+variable "protocol_for_loadbalancer" {
+
+  type = string
+
+}
+
+variable "ports_forwarding_rule" {
+
+  type    = list(string)
+  default = ["80"]
+
+}
+
+variable "firewall_rule_internet_name" {
+
+  type = string
+
+}
+
+variable "firewall_rule_internet_ports" {
+
+  type = list(string)
+
+}
+
+variable "firewall_rule_internet_direction" {
+
+  type = string
+
+}
+
+variable "firewall_rule_internet_destination" {
+
+  type    = list(string)
+  default = ["0.0.0.0/0"]
 
 }

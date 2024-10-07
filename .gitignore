@@ -3,3 +3,6 @@ default_key.json
 .terraform/
 *.tfstate
 *.tfstate.backup
+*.pub
+compute/id_rsa.pub
+compute/id_rsa
