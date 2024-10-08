@@ -1,6 +1,7 @@
 
 # Deploying test instance in same VPC to test internal load balancer
 
+/*
 resource "google_compute_instance" "test_instance" {
 
   machine_type = var.machine-type
@@ -35,7 +36,7 @@ resource "google_compute_instance" "test_instance" {
 
 
 }
-
+*/
 
 data "template_file" "startup_script" {
 
